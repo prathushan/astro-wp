@@ -1,8 +1,7 @@
 import { defineConfig } from 'astro/config';
-import vercel from '@astrojs/vercel/server';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  output: 'server', // Enable SSR
+  output: 'server',
   adapter: vercel(),
-  site: 'https://dev-fit-quest-challenge.pantheonsite.io/'
 });
