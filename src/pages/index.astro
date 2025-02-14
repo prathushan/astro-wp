@@ -1,7 +1,7 @@
 ---
-import { getPosts } from '../lib/wp.js';
+import { getPages } from '../lib/wp.js';
 
-const initialPosts = await getPosts();
+const initialPages = await getPages();
 ---
 
 <!DOCTYPE html>
@@ -9,33 +9,33 @@ const initialPosts = await getPosts();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WordPress Posts in Astro</title>
+  <title>WordPress Pages in Astro</title>
 </head>
 <body>
-  <h1>Latest Posts</h1>
-  <ul id="post-list">
-    {initialPosts.map(post => (
-      <li key={post.id}>
-        <h2>{post.title.rendered}</h2>
-        <p set:html={post.excerpt.rendered}></p>
+  <h1>Pages</h1>
+  <ul id="page-list">
+    {initialPages.map(page => (
+      <li key={page.id}>
+        <h2>{page.title.rendered}</h2>
+        <p set:html={page.excerpt?.rendered}></p>
       </li>
     ))}
   </ul>
 
   <script>
-    async function fetchPosts() {
-      const response = await fetch('https://dev-fit-quest-challenge.pantheonsite.io/wp-json/wp/v2/posts');
-      const posts = await response.json();
-      const postList = document.getElementById('post-list');
-      postList.innerHTML = posts.map(post => `
+    async function fetchPages() {
+      const response = await fetch('https://dev-fit-quest-challenge.pantheonsite.io/wp-json/wp/v2/pages');
+      const pages = await response.json();
+      const pageList = document.getElementById('page-list');
+      pageList.innerHTML = pages.map(page => `
         <li>
-          <h2>${post.title.rendered}</h2>
-          <p>${post.excerpt.rendered}</p>
+          <h2>${page.title.rendered}</h2>
+          <p>${page.excerpt?.rendered || ''}</p>
         </li>
       `).join('');
     }
 
-    setInterval(fetchPosts, 1000); // Refresh posts every 5 seconds
+    setInterval(fetchPages, 5000); // Refresh pages every 5 seconds
   </script>
 </body>
 </html>
